@@ -113,3 +113,4 @@ function HistoryPage() {
     </div>
   );
 }
+

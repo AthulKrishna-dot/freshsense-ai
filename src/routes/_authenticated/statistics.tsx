@@ -82,3 +82,4 @@ function StatisticsPage() {
     </div>
   );
 }
+
