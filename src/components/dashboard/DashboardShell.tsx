@@ -1,8 +1,10 @@
 import { Link, useRouter, useLocation } from "@tanstack/react-router";
-import { LayoutDashboard, Upload, History, Sparkles, BarChart3, Info, Settings, MessageSquare, Leaf, LogOut } from "lucide-react";
+import { LayoutDashboard, Upload, History, Sparkles, BarChart3, Info, Settings, MessageSquare, Leaf, LogOut, Shield } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { checkIsAdmin } from "@/lib/admin.functions";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
