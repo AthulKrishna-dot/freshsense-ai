@@ -1,8 +1,10 @@
 import { Link, useRouter, useLocation } from "@tanstack/react-router";
-import { LayoutDashboard, Upload, History, Sparkles, BarChart3, Info, Settings, MessageSquare, Leaf, LogOut } from "lucide-react";
+import { LayoutDashboard, Upload, History, Sparkles, BarChart3, Info, Settings, MessageSquare, Leaf, LogOut, Shield } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { checkIsAdmin } from "@/lib/admin.functions";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -23,6 +25,13 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
   const location = useLocation();
   const [email, setEmail] = useState<string>("");
+  const check = useServerFn(checkIsAdmin);
+  const { data: adminInfo } = useQuery({
+    queryKey: ["is-admin"],
+    queryFn: () => check(),
+    staleTime: 5 * 60 * 1000,
+  });
+  const isAdmin = adminInfo?.isAdmin ?? false;
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? ""));
@@ -67,6 +76,20 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               </Link>
             );
           })}
+          {isAdmin && (
+            <Link
+              to={"/admin" as never}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm whitespace-nowrap transition-colors mt-2",
+                location.pathname === "/admin"
+                  ? "bg-primary/15 text-primary border border-primary/25"
+                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground border border-primary/20",
+              )}
+            >
+              <Shield className="size-4" />
+              <span>Admin Panel</span>
+            </Link>
+          )}
         </nav>
         <div className="hidden md:block p-3 border-t border-sidebar-border/60">
           <div className="text-xs text-muted-foreground truncate mb-2">{email}</div>
