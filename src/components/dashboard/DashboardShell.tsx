@@ -76,6 +76,20 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               </Link>
             );
           })}
+          {isAdmin && (
+            <Link
+              to={"/admin" as never}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm whitespace-nowrap transition-colors mt-2",
+                location.pathname === "/admin"
+                  ? "bg-primary/15 text-primary border border-primary/25"
+                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground border border-primary/20",
+              )}
+            >
+              <Shield className="size-4" />
+              <span>Admin Panel</span>
+            </Link>
+          )}
         </nav>
         <div className="hidden md:block p-3 border-t border-sidebar-border/60">
           <div className="text-xs text-muted-foreground truncate mb-2">{email}</div>
