@@ -25,6 +25,13 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
   const location = useLocation();
   const [email, setEmail] = useState<string>("");
+  const check = useServerFn(checkIsAdmin);
+  const { data: adminInfo } = useQuery({
+    queryKey: ["is-admin"],
+    queryFn: () => check(),
+    staleTime: 5 * 60 * 1000,
+  });
+  const isAdmin = adminInfo?.isAdmin ?? false;
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? ""));
