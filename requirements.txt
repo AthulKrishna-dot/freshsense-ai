@@ -1,0 +1,19 @@
+# FreshSense AI — Streamlit app dependencies
+# Python 3.10+ (see the `python_requires` of each package)
+#
+# Run locally:
+#   pip install -r requirements.txt
+#   streamlit run streamlit_app.py
+#
+# Versions are pinned with `==` for reproducible, production-ready installs.
+# The app talks to the Gemini REST API directly over HTTPS, so it only needs
+# `streamlit` (UI), `Pillow` (image handling) and `requests` (API calls).
+
+# --- Core UI framework -----------------------------------------------------
+streamlit==1.62.0
+
+# --- Image handling (PIL) --------------------------------------------------
+Pillow==12.3.0
+
+# --- HTTP client for the Gemini Vision API ---------------------------------
+requests==2.34.2
